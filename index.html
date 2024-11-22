@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .todo-container { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 300px; text-align: center; }
+        form { display: flex; justify-content: space-between; }
+        input { width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px; border: none; background: #28a745; color: #fff; border-radius: 5px; cursor: pointer; }
+        ul { list-style: none; margin-top: 20px; padding: 0; }
+        li { background: #f9f9f9; padding: 10px; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; }
+        .completed { text-decoration: line-through; color: #888; }
+        .edit-btn { background: #ffc107; margin-right: 5px; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+    <div class="todo-container">
+        <h1>Lista de Tarefas</h1>
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="Adicionar nova tarefa">
+            <button type="submit">Adicionar</button>
+        </form>
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script>
+        const form = document.getElementById("todo-form"), input = document.getElementById("todo-input"), list = document.getElementById("todo-list");
+        form.onsubmit = e => {
+            e.preventDefault();
+            if (input.value.trim()) {
+                const item = document.createElement("li"), span = document.createElement("span"), editBtn = document.createElement("button"), delBtn = document.createElement("button");
+                span.textContent = input.value;
+                editBtn.textContent = "Editar";
+                delBtn.textContent = "Excluir";
+                editBtn.classList.add("edit-btn");
+                editBtn.onclick = () => {
+                    const newText = prompt("Edite a tarefa:", span.textContent);
+                    if (newText) span.textContent = newText;
+                };
+                delBtn.onclick = () => item.remove();
+                item.append(span, editBtn, delBtn);
+                item.onclick = () => item.classList.toggle("completed");
+                list.appendChild(item);
+                input.value = "";
+            }
+        };
+    </script>
+</body>
+</html>
